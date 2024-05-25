@@ -14,16 +14,27 @@ class DefectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // All Products
-        $defect = \App\Models\Defect::orderBy('id', 'desc')->get();
+        $search = $request->input('search');
 
-        if(!$defect) {
+        $query = \App\Models\Defect::query();
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('size', 'LIKE', "%{$search}%")
+                ->orWhere('pattern', 'LIKE', "%{$search}%")
+                ->orWhere('defect', 'LIKE', "%{$search}%")
+                ->orWhere('status', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $defect = $query->orderBy('id', 'desc')->get();
+
+        if ($defect->isEmpty()) {
             return response([
                 'status' => false,
                 'message' => 'Tidak ada data defect products',
-                'data' => [],
             ], 404);
         }
 
