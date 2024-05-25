@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Production')
+@section('title', 'Production Products')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -12,15 +12,15 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Products</h1>
+                <h1>Production Products</h1>
                 <div class="section-header-button">
                     <a href="{{ route('production.create') }}"
-                        class="btn btn-primary {{ Auth::user()->status == 'HOS' || Auth::user()->status == 'TL' ? "" : "disabled" }}">Add New Production</a>
+                        class="btn btn-primary {{ Auth::user()->status == 'HOS' || Auth::user()->status == 'TL' ? "" : "disabled" }}">Add New Production Products</a>
                 </div>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Production</a></div>
-                    <div class="breadcrumb-item">All Productions</div>
+                    <div class="breadcrumb-item"><a href="#">Production Products</a></div>
+                    <div class="breadcrumb-item">All Production Products</div>
                 </div>
             </div>
             <div class="section-body">
@@ -29,15 +29,15 @@
                         @include('layouts.alert')
                     </div>
                 </div>
-                <h2 class="section-title">Productions</h2>
+                <h2 class="section-title">Production Products</h2>
                 <p class="section-lead">
-                    You can manage all Productions, such as editing, deleting and more.
+                    You can manage all Production Product, such as editing, deleting and more.
                 </p>
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>All Production</h4>
+                                <h4>All Production Product</h4>
                             </div>
                             <div class="card-body">
                                 <div class="float-left">

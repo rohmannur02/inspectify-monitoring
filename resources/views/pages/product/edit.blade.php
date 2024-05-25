@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Product')
+@section('title', 'Update Product')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -26,8 +26,6 @@
 
             <div class="section-body">
                 <h2 class="section-title">Product</h2>
-
-
 
                 <div class="card">
                     <form action="{{ route('product.update', $products) }}" method="POST" >
@@ -89,88 +87,9 @@
                                     </div>
                                 @enderror
                             </div>
-                           {{-- <div class="form-group">
-                                <label>Price</label>
-                                <input type="number"
-                                    class="form-control @error('price')
-                                is-invalid
-                            @enderror"
-                                    name="price" value="{{ $product->price }}">
-                                @error('price')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Stock</label>
-                                <input type="number"
-                                    class="form-control @error('stock')
-                                is-invalid
-                            @enderror"
-                                    name="stock" value="{{ $product->stock }}">
-                                @error('stock')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label class="mr-5">Image</label>
-                                <img src="{{ asset('storage/products/'.$product->image) }}" class="img-thumbnail" alt="{{ $product->name }}" width="300" height="300">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Update Image</label>
-                                <input type="file"
-                                    class="form-control @error('image')
-                                is-invalid
-                            @enderror"
-                                    name="image" value="{{ 'storage/products/'.$product->image }}">
-                                <small class="form-text text-muted">Update product image.</small>
-                                @error('image')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Category</label>
-                                <div class="selectgroup w-100">
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="category" value="drink" class="selectgroup-input"
-                                            @if ($product->category == 'drink') checked @endif>
-                                        <span class="selectgroup-button">Drink</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="category" value="food" class="selectgroup-input" @if ($product->category == 'food') checked @endif>
-                                        <span class="selectgroup-button">Food</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="category" value="snack" class="selectgroup-input" @if ($product->category == 'snack') checked @endif>
-                                        <span class="selectgroup-button">Snack</span>
-                                    </label>
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Favorite</label>
-                                <div class="selectgroup w-100">
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="is_best_seller" value="0" class="selectgroup-input"
-                                            @if ($product->is_best_seller == '0') checked @endif>
-                                        <span class="selectgroup-button">No</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="is_best_seller" value="1" class="selectgroup-input" @if ($product->is_best_seller == '1') checked @endif>
-                                        <span class="selectgroup-button">Yes</span>
-                                    </label>
-                                </div>
-                            </div> --}}
                         </div>
                         <div class="card-footer text-right">
-                            <button class="btn btn-primary">Update</button>
+                            <button class="btn btn-primary">Update Product</button>
                         </div>
                     </form>
                 </div>

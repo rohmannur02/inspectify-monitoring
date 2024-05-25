@@ -30,7 +30,7 @@
                     <form action="{{ route('product.store') }}" method="POST">
                         @csrf
                         <div class="card-header">
-                            <h4>Input a new product</h4>
+                            <h4>Input a New Product</h4>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
@@ -86,81 +86,9 @@
                                     </div>
                                 @enderror
                             </div>
-                            {{-- <div class="form-group">
-                                <label>Price</label>
-                                <input type="number"
-                                    class="form-control @error('price')
-                                is-invalid
-                            @enderror"
-                                    name="price">
-                                @error('price')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Stock</label>
-                                <input type="number"
-                                    class="form-control @error('stock')
-                                is-invalid
-                            @enderror"
-                                    name="stock">
-                                @error('stock')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Image</label>
-                                <input type="file"
-                                    class="form-control @error('image')
-                                is-invalid
-                            @enderror"
-                                    name="image">
-                                <small class="form-text text-muted">Upload product image.</small>
-                                @error('image')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Category</label>
-                                <div class="selectgroup w-100">
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="category" value="drink" class="selectgroup-input"
-                                            checked="">
-                                        <span class="selectgroup-button">Drink</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="category" value="food" class="selectgroup-input">
-                                        <span class="selectgroup-button">Food</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="category" value="snack" class="selectgroup-input">
-                                        <span class="selectgroup-button">Snack</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Favorite</label>
-                                <div class="selectgroup w-100">
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="is_best_seller" value="0" class="selectgroup-input"
-                                            checked="">
-                                        <span class="selectgroup-button">No</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="is_best_seller" value="1" class="selectgroup-input">
-                                        <span class="selectgroup-button">Yes</span>
-                                    </label>
-                                </div>
-                            </div> --}}
                         </div>
                         <div class="card-footer text-right">
-                            <button class="btn btn-primary">Submit</button>
+                            <button class="btn btn-primary">Create Product</button>
                         </div>
                     </form>
                 </div>

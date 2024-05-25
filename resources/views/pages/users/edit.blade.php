@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit User')
+@section('title', 'Update User')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -26,8 +26,6 @@
 
             <div class="section-body">
                 <h2 class="section-title">User</h2>
-
-
 
                 <div class="card">
                     <form action="{{ route('user.update', $user) }}" method="POST">
@@ -116,7 +114,7 @@
                         </div>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary"
-                            >Update</button>
+                            >Update User</button>
                         </div>
                     </form>
                 </div>

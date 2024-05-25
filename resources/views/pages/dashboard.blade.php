@@ -39,7 +39,7 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Productions</h4>
+                                <h4>Total Product Productions</h4>
                             </div>
                             <div class="card-body">
                                 {{ $totalProductions . " Productions" }}
@@ -54,7 +54,7 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Defects</h4>
+                                <h4>Total Product Defects</h4>
                             </div>
                             <div class="card-body">
                                 {{ $totalDefects . " Defects" }}
@@ -62,27 +62,12 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-success">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Total Income</h4>
-                            </div>
-                            <div class="card-body">
-                                Rp {{ number_format($totalIncome, 0, ',', '.') }}
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
             <div class="">
                 <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Latest Productions</h4>
+                            <h4>Latest Product Productions</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('production.index') }}"
                                     class="btn btn-primary">View All</a>

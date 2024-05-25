@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'product')
+@section('title', 'Products')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -19,7 +19,7 @@
                 </div>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Product</a></div>
+                    <div class="breadcrumb-item"><a href="#">Products</a></div>
                     <div class="breadcrumb-item">All Products</div>
                 </div>
             </div>
