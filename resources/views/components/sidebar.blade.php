@@ -38,7 +38,7 @@
             <li class="nav-item dropdown ">
 
                 <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-box"></i><span>Defects</span></a>
+                    class="nav-link has-dropdown"><i class="fas fa-exclamation-triangle"></i><span>Defects</span></a>
                 <ul class="dropdown-menu">
                     <li class='{{ Request::is('defect.index') ? 'active' : '' }}'>
                         <a class="nav-link"
@@ -51,7 +51,7 @@
              <li class="nav-item dropdown ">
 
                 <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-box"></i><span>Productions</span></a>
+                    class="nav-link has-dropdown"><i class="fas fa-industry"></i><span>Productions</span></a>
                 <ul class="dropdown-menu">
                     <li class='{{ Request::is('production.index') ? 'active' : '' }}'>
                         <a class="nav-link"
@@ -64,7 +64,7 @@
             <li class="nav-item dropdown ">
 
                 <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-box"></i><span>Products</span></a>
+                    class="nav-link has-dropdown"><i class="fas fa-box-open"></i><span>Products</span></a>
                 <ul class="dropdown-menu">
                     <li class='{{ Request::is('product.index') ? 'active' : '' }}'>
                         <a class="nav-link"
@@ -73,47 +73,6 @@
 
                 </ul>
             </li>
-
-            {{-- <li class="nav-item dropdown ">
-
-                <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-shopping-cart"></i><span>Orders</span></a>
-                <ul class="dropdown-menu">
-                    <li class='{{ Request::is('order.index') ? 'active' : '' }}'>
-                        <a class="nav-link"
-                            href="{{ route('order.index') }}">All Orders</a>
-                    </li>
-
-                </ul>
-            </li>
-
-            <li class="nav-item dropdown ">
-
-                <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-chart-line"></i><span>Sales Report</span></a>
-                <ul class="dropdown-menu">
-                    <li class='{{ Request::is('sales.index') ? 'active' : '' }}'>
-                        <a class="nav-link"
-                            href="{{ route('sales.index') }}">All Sales Report Data</a>
-                    </li>
-
-                    <li class='{{ Request::is('cash-sales.index') ? 'active' : '' }}'>
-                        <a class="nav-link"
-                            href="{{ route('cash-sales.index') }}">Cash Sales Report Data</a>
-                    </li>
-
-                    <li class='{{ Request::is('qris-sales.index') ? 'active' : '' }}'>
-                        <a class="nav-link"
-                            href="{{ route('qris-sales.index') }}">QRIS Sales Report Data</a>
-                    </li>
-
-                    <li class='{{ Request::is('range-sales.index') ? 'active' : '' }}'>
-                        <a class="nav-link"
-                            href="{{ route('range-sales.index') }}">Range Sales Report Data</a>
-                    </li>
-
-                </ul>
-            </li> --}}
 
         </ul>
 
