@@ -29,7 +29,7 @@ class DefectController extends Controller
             });
         }
 
-        $defect = $query->orderBy('id', 'desc')->get();
+        $defect = $query->orderBy('created_at', 'desc')->get();
 
         if ($defect->isEmpty()) {
             return response([
