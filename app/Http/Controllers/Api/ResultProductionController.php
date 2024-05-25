@@ -18,14 +18,14 @@ class ResultProductionController extends Controller
         if(!$production) {
             return response([
                 'status' => false,
-                'message' => 'Tidak ada data products',
+                'message' => 'Tidak ada data Produksi Product',
                 'data' => [],
             ], 404);
         }
 
         return response([
             'status' => true,
-            'message' => 'List data products',
+            'message' => 'List data Produksi Product',
             'data' => $production,
         ], 200);
     }
@@ -60,13 +60,13 @@ class ResultProductionController extends Controller
         if($production) {
             return response()->json([
                 'success' => true,
-                'message' => 'production product created successfully',
+                'message' => 'Data Produksi Product berhasil dibuat dan disimpan',
                 'data' => $production,
             ], 201);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'production product failed to created',
+                'message' => 'Data Produksi Product gagal dibuat dan disimpan',
             ], 409);
         }
     }
@@ -120,7 +120,7 @@ class ResultProductionController extends Controller
 
                 return response()->json([
                     'success' => true,
-                    'message' => 'production berhasil diperbarui',
+                    'message' => 'Data Produksi Product berhasil diperbarui',
                     'data' => $production,
                 ]);
             }
@@ -143,7 +143,7 @@ class ResultProductionController extends Controller
             if (!$production) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'production tidak ditemukan',
+                    'message' => 'Data Produksi Product tidak ditemukan!',
                 ], 404);
             }
 
@@ -151,13 +151,13 @@ class ResultProductionController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Production berhasil dihapus',
+                'message' => 'Data Produksi Product berhasil dihapus',
                 'data' => $production,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message'=> 'Terjadi kesalahan saat menghapus Production: ' . $e->getMessage(),
+                'message'=> 'Terjadi kesalahan saat menghapus Data Produksi Product: ' . $e->getMessage(),
             ], 422);
         }
     }

@@ -43,10 +43,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //  'size',
-        // 'pattern',
-        // 'item_code',
-        // 'marking_line',
         $request->validate([
             'size' => 'required|string',
             'pattern' => 'required|string',
@@ -61,16 +57,18 @@ class ProductController extends Controller
             'marking_line' => $request->marking_line,
         ]);
 
+        $size = $request->size;
+
         if($product) {
             return response()->json([
                 'success' => true,
-                'message' => 'product created successfully',
+                'message' => 'Data Product Size ' . $size . ', berhasil dibuat dan disimpan',
                 'data' => $product,
             ], 201);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'product failed to created',
+                'message' => 'Data Product Size ' . $size . ', gagal dibuat dan disimpan!',
             ], 409);
         }
     }
@@ -118,13 +116,12 @@ class ProductController extends Controller
                 $product->item_code = $request->item_code ?? $product->item_code;
                 $product->marking_line = $request->marking_line ?? $product->marking_line;
 
-
-
+                $size = $product->size;
                 $product->update();
 
                 return response()->json([
                     'success' => true,
-                    'message' => 'product berhasil diperbarui',
+                    'message' => 'Data Product Size ' . $size . ', berhasil diperbarui',
                     'data' => $product,
                 ]);
             }
@@ -144,10 +141,12 @@ class ProductController extends Controller
         try {
             $product = \App\Models\Product::find($id);
 
+            $size = $product->size;
+
             if (!$product) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'product tidak ditemukan',
+                    'message' => 'Data Product Size ' . $size . ', tidak ditemukan!',
                 ], 404);
             }
 
@@ -155,7 +154,7 @@ class ProductController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Product berhasil dihapus',
+                'message' => 'Data Product Size ' . $size . ', berhasil dihapus!',
                 'data' => $product,
             ], 200);
         } catch (\Exception $e) {

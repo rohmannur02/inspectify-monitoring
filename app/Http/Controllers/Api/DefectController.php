@@ -22,14 +22,14 @@ class DefectController extends Controller
         if(!$defect) {
             return response([
                 'status' => false,
-                'message' => 'Tidak ada data products',
+                'message' => 'Tidak ada data defect products',
                 'data' => [],
             ], 404);
         }
 
         return response([
             'status' => true,
-            'message' => 'List data products',
+            'message' => 'List data defect products',
             'data' => $defect,
         ], 200);
     }
@@ -66,16 +66,18 @@ class DefectController extends Controller
             'status' => $request->status,
         ]);
 
+        $size = $request->size;
+
         if($defect) {
             return response()->json([
                 'success' => true,
-                'message' => 'defect created successfully',
+                'message' => 'Product Defect Size ' . $size . ', berhasil dibuat dan disimpan',
                 'data' => $defect,
             ], 201);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'defect failed to created',
+                'message' => 'Product Defect Size ' . $size . ', gagal dibuat dan disimpan!',
             ], 409);
         }
     }
@@ -93,8 +95,6 @@ class DefectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Log::info("Memulai pembaruan produk dengan ID: $id");
-
         try {
             $validator = Validator::make($request->all(), [
                 'size' => 'sometimes|required|string',
@@ -126,8 +126,6 @@ class DefectController extends Controller
                 $defect->position = $request->position ?? $defect->position;
                 $defect->status = $request->status ?? $defect->status;
 
-                Log::info('Parameter yang diterima1:', ['request' => $request->all()]);
-
                 // Jika ada file gambar baru yang diunggah, hapus gambar lama dan simpan gambar baru
                 if ($request->image && $request->image->isValid() && $request->hasFile('image')) {
                     // Hapus gambar lama jika ada
@@ -141,13 +139,12 @@ class DefectController extends Controller
                     $defect->image = $filename;
                 }
 
-                Log::info('Parameter yang diterima2:', ['request' => $request->all()]);
-
+                $size = $defect->size;
                 $defect->update();
 
                 return response()->json([
                     'success' => true,
-                    'message' => 'Defect berhasil diperbarui',
+                    'message' => 'Data Product Defect Size ' . $size . ', berhasil diperbarui',
                     'data' => $defect,
                 ]);
             }
@@ -167,16 +164,17 @@ class DefectController extends Controller
         try {
             $defect = \App\Models\Defect::find($id);
 
+            $size = $defect->size;
+
             if (!$defect) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Defect tidak ditemukan',
+                    'message' => 'Data Product Defect Size ' . $size . ', tidak ditemukan',
                 ], 404);
             }
 
              if ($defect->image) {
                 // Mengambil path dari URL gambar
-                // $imagePath = str_replace(asset('storage'), 'public', $product->image);
                 $imagePath = 'public/defect/' . $defect->image;
 
                 // Menghapus file gambar dari storage
@@ -187,11 +185,9 @@ class DefectController extends Controller
 
             $defect->delete();
 
-            Log::info('Products:', ['products' => $defect]);
-
             return response()->json([
                 'success' => true,
-                'message' => 'Defect berhasil dihapus',
+                'message' => 'Data Product Defect Size ' . $size . ' berhasil dihapus!',
                 'data' => $defect,
             ], 200);
         } catch (\Exception $e) {
