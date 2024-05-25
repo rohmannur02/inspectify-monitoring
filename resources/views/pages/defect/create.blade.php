@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Create Defect')
+@section('title', 'Create Product Defect')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -16,32 +16,33 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Create a new Defect</h1>
+                <h1>Create a new Product Defect</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                     <div class="breadcrumb-item"><a href="#">New Forms</a></div>
-                    <div class="breadcrumb-item">Defect</div>
+                    <div class="breadcrumb-item">Product Defect</div>
                 </div>
             </div>
 
             <div class="section-body">
-                <h2 class="section-title">Defect</h2>
+                <h2 class="section-title">Product Defect</h2>
                 <div class="card">
                     <form action="{{ route('defect.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-header">
-                            <h4>Input a new Defect</h4>
+                            <h4>Input a new Product Defect</h4>
                         </div>
 
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label>Size</label>
-                                        <select class="form-control" name="size">
-                                            <option value="Size 1">Size 1</option>
-                                            <option value="Size 2">Size 2</option>
-                                            <option value="Size 3">Size 3</option>
+                                        <label for="size">Size</label>
+                                        <select class="form-control" name="size" id="size">
+                                            <option value="" disabled selected hidden>Choose a Size</option>
+                                            @foreach($sizes as $size)
+                                                <option value="{{ $size->size }}">{{ $size->size }}</option>
+                                            @endforeach
                                         </select>
                                         @error('size')
                                             <div class="invalid-feedback">
@@ -52,12 +53,8 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label>Pattern</label>
-                                        <select class="form-control" name="pattern">
-                                            <option value="Pattern 1">Pattern 1</option>
-                                            <option value="Pattern 2">Pattern 2</option>
-                                            <option value="Pattern 3">Pattern 3</option>
-                                        </select>
+                                        <label for="pattern">Pattern</label>
+                                        <input type="text" class="form-control" placeholder="Choose a Size and Auto Update" id="pattern" name="pattern" readonly>
                                         @error('pattern')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -70,12 +67,38 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label>No Serial</label>
-                                        <select class="form-control" name="serial">
-                                            <option value="No Serial 1">No Serial 1</option>
-                                            <option value="No Serial 2">No Serial 2</option>
-                                            <option value="No Serial 3">No Serial 3</option>
-                                        </select>
+                                        <label for="item_code">Item Code</label>
+                                        <input type="text" placeholder="Choose a Size and Auto Update" class="form-control" id="item_code" name="item_code" readonly>
+                                        @error('item_code')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="marking_line">Marking Line</label>
+                                        <input type="text" placeholder="Choose a Size and Auto Update" class="form-control" id="marking_line" name="marking_line" readonly>
+                                        @error('marking_line')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Serial</label>
+                                        <input type="text"
+                                        placeholder="Input Serial"
+                                            class="form-control @error('serial')
+                                        is-invalid
+                                    @enderror"
+                                            name="serial">
                                         @error('serial')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -87,9 +110,17 @@
                                     <div class="form-group">
                                         <label>Defect</label>
                                         <select class="form-control" name="defect">
-                                            <option value="Defect 1">Defect 1</option>
-                                            <option value="Defect 2">Defect 2</option>
-                                            <option value="Defect 3">Defect 3</option>
+                                            <option value="" disabled selected hidden>Choose a Defect</option>
+                                            <option value="Bare">Bare</option>
+                                            <option value="Pinch Air">Pinch Air</option>
+                                            <option value="Blown">Blown</option>
+                                            <option value="Injury">Injury</option>
+                                            <option value="Unloader">Unloader</option>
+                                            <option value="Under Cure">Under Cure</option>
+                                            <option value="Buckle Bladder">Buckle Bladder</option>
+                                            <option value="Steam Leak">Steam Leak</option>
+                                            <option value="Foreign Material">Foreign Material</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                         @error('defect')
                                             <div class="invalid-feedback">
@@ -105,9 +136,17 @@
                                     <div class="form-group">
                                         <label>Area</label>
                                         <select class="form-control" name="area">
-                                            <option value="Area 1">Area 1</option>
-                                            <option value="Area 2">Area 2</option>
-                                            <option value="Area 3">Area 3</option>
+                                            <option value="" disabled selected hidden>Choose a Area</option>
+                                            <option value="Center">Center</option>
+                                            <option value="Shoulder">Shoulder</option>
+                                            <option value="Side">Side</option>
+                                            <option value="Bead">Bead</option>
+                                            <option value="Toe Bead">Toe Bead</option>
+                                            <option value="Heel Bead">Heel Bead</option>
+                                            <option value="Sheet Bead">Sheet Bead</option>
+                                            <option value="Inner">Inner</option>
+                                            <option value="Multiple">Multiple</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                         @error('area')
                                             <div class="invalid-feedback">
@@ -118,12 +157,12 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label>No Mold</label>
-                                        <select class="form-control" name="mold">
-                                            <option value="No Mold 1">No Mold 1</option>
-                                            <option value="No Mold 2">No Mold 2</option>
-                                            <option value="No Mold 3">No Mold 3</option>
-                                        </select>
+                                        <label>Mold</label>
+                                        <input type="text" placeholder="Input Mold"
+                                            class="form-control @error('mold')
+                                        is-invalid
+                                    @enderror"
+                                            name="mold">
                                         @error('mold')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -138,9 +177,10 @@
                                     <div class="form-group">
                                         <label>Position</label>
                                         <select class="form-control" name="position">
-                                            <option value="Position 1">Position 1</option>
-                                            <option value="Position 2">Position 2</option>
-                                            <option value="Position 3">Position 3</option>
+                                            <option value="" disabled selected hidden>Choose a Position</option>
+                                            <option value="Upper">Upper</option>
+                                            <option value="Lower">Lower</option>
+                                            <option value="Multiple">Multiple</option>
                                         </select>
                                         @error('position')
                                             <div class="invalid-feedback">
@@ -152,11 +192,12 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Status</label>
-                                        <input type="text"
-                                            class="form-control @error('status')
-                                        is-invalid
-                                    @enderror"
-                                            name="status">
+                                        <select class="form-control" name="status">
+                                            <option value="" disabled selected hidden>Choose a Status</option>
+                                            <option value="Repair">Repair</option>
+                                            <option value="Scrap">Scrap</option>
+                                            <option value="Hold">Hold</option>
+                                        </select>
                                         @error('status')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -182,7 +223,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <button class="btn btn-primary">Submit</button>
+                            <button class="btn btn-primary">Create Product Defect</button>
                         </div>
                     </form>
                 </div>
@@ -193,4 +234,22 @@
 @endsection
 
 @push('scripts')
+    <script>
+        var sizes = {!! json_encode($sizes) !!};
+        var products = {!! json_encode($products) !!};
+
+        // Script to handle size dropdown change event
+        document.getElementById('size').addEventListener('change', function() {
+            var selectedSize = this.value;
+            for (var i = 0; i < products.length; i++) {
+                if (products[i].size === selectedSize) {
+                    document.getElementById('pattern').value = products[i].pattern;
+                    document.getElementById('item_code').value = products[i].item_code;
+                    document.getElementById('marking_line').value = products[i].marking_line;
+
+                    break;
+                }
+            }
+        });
+    </script>
 @endpush
