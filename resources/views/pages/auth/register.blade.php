@@ -52,24 +52,6 @@
                     @enderror
                 </div>
 
-
-                {{-- <div class="form-group">
-                    <label for="phone">No Hp</label>
-                    <input id="phone"
-                        type="number"
-                        class="form-control @error('phone')
-                            is-invalid
-                        @enderror"
-                        name="phone">
-
-                    @error('phone')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div> --}}
-
-
                 <div class="form-group">
                     <label for="password1"
                         class="d-block">Password</label>
