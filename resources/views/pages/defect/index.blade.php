@@ -67,6 +67,7 @@
                                         @endphp
                                         <tr>
                                             <th>No</th>
+                                            <th>Author</th>
                                             <th>Size</th>
                                             <th>Pattern</th>
                                             <th>Serial</th>
@@ -88,6 +89,9 @@
                                             <tr>
                                                 <td>
                                                     {{ $no++ }}
+                                                </td>
+                                                <td>
+                                                    {{ $defect->author }}
                                                 </td>
                                                 <td>
                                                     {{ $defect->size }}

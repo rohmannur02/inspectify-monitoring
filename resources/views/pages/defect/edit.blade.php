@@ -232,6 +232,16 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label for="author">Author</label>
+                                <input type="text" class="form-control"  id="author" name="author"  readonly value="{{ $defect->author }}">
+                                @error('author')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary" >Update Product Defect</button>

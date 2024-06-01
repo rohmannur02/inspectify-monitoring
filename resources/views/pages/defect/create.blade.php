@@ -207,20 +207,41 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label>Image</label>
-                                <input type="file"
-                                    class="form-control @error('image')
-                                is-invalid
-                            @enderror"
-                                    name="image">
-                                <small class="form-text text-muted">Upload Defect image.</small>
-                                @error('image')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Image</label>
+                                        <input type="file"
+                                            class="form-control @error('image')
+                                        is-invalid
+                                    @enderror"
+                                            name="image">
+                                        <small class="form-text text-muted">Upload Defect image.</small>
+                                        @error('image')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
-                                @enderror
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="author">Author</label>
+                                        <input type="hidden" id="username" value="{{ auth()->user()->name }}">
+                                        <input type="text" id="author" name="author" readonly
+                                            class="form-control @error('author')
+                                        is-invalid
+                                    @enderror"
+                                            name="author">
+                                        @error('author')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary">Create Product Defect</button>
@@ -251,5 +272,23 @@
                 }
             }
         });
+
+        window.onload = function() {
+            var username = document.getElementById('username').value;
+            var authorField = document.getElementById('author');
+
+            if (username) {
+                var currentDateTime = new Date();
+                var formattedDateTime = currentDateTime.getFullYear() + '-' +
+                                        ('0' + (currentDateTime.getMonth() + 1)).slice(-2) + '-' +
+                                        ('0' + currentDateTime.getDate()).slice(-2) + ' ' +
+                                        ('0' + currentDateTime.getHours()).slice(-2) + ':' +
+                                        ('0' + currentDateTime.getMinutes()).slice(-2) + ':' +
+                                        ('0' + currentDateTime.getSeconds()).slice(-2);
+
+                var authorValue = username + '/' + formattedDateTime;
+                authorField.value = authorValue;
+            }
+        };
     </script>
 @endpush

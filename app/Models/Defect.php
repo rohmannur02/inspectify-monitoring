@@ -19,6 +19,7 @@ class Defect extends Model
         'mold',
         'position',
         'image',
-        'status'
+        'status',
+        'author',
     ];
 }
