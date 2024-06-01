@@ -25,6 +25,7 @@ class DefectController extends Controller
                 $q->where('size', 'LIKE', "%{$search}%")
                 ->orWhere('pattern', 'LIKE', "%{$search}%")
                 ->orWhere('defect', 'LIKE', "%{$search}%")
+                ->orWhere('author', 'LIKE', "%{$search}%")
                 ->orWhere('status', 'LIKE', "%{$search}%");
             });
         }
@@ -60,6 +61,7 @@ class DefectController extends Controller
             'position' => 'required|string',
             'image' => 'required|image|mimes:png,jpg,jpeg',
             'status' => 'required|string',
+            'author' => 'required|string',
         ]);
 
         $filename = time() . '.' . $request->image->extension();
@@ -75,6 +77,7 @@ class DefectController extends Controller
             'position' => $request->position,
             'image' => $filename,
             'status' => $request->status,
+            'author' => $request->author,
         ]);
 
         $size = $request->size;
@@ -117,6 +120,7 @@ class DefectController extends Controller
                 'position' => 'sometimes|required|string',
                 'image' => 'sometimes|image|mimes:png,jpg,jpeg',
                 'status' => 'sometimes|required|string',
+                'author' => 'sometimes|required|string',
             ]);
 
             if($validator->fails()) {
@@ -136,6 +140,7 @@ class DefectController extends Controller
                 $defect->mold = $request->mold ?? $defect->mold;
                 $defect->position = $request->position ?? $defect->position;
                 $defect->status = $request->status ?? $defect->status;
+                $defect->author = $request->author ?? $defect->author;
 
                 // Jika ada file gambar baru yang diunggah, hapus gambar lama dan simpan gambar baru
                 if ($request->image && $request->image->isValid() && $request->hasFile('image')) {
