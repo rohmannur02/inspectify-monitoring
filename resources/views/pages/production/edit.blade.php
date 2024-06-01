@@ -37,6 +37,36 @@
                             <h4>Update Production Product</h4>
                         </div>
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="size">Size</label>
+                                        <select class="form-control" name="size" id="size">
+                                            <option value="" disabled selected hidden>Choose a Size</option>
+                                            @foreach($sizes as $size)
+                                                <option value="{{ $size->size }}" @if($productions->size == $size->size) selected @endif>{{ $size->size }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('size')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="pattern">Pattern</label>
+                                        <input type="text" class="form-control"  id="pattern" name="pattern" readonly>
+                                        @error('pattern')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label>Schedule Production</label>
                                 <input type="text"
@@ -89,6 +119,16 @@
                                     </div>
                                 @enderror
                             </div>
+
+                            <div class="form-group">
+                                <label for="author">Author</label>
+                                <input type="text" class="form-control"  id="author" name="author"  readonly value="{{ $productions->author }}">
+                                @error('author')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary">Update Production Product</button>
@@ -102,4 +142,29 @@
 @endsection
 
 @push('scripts')
+    <script>
+        var products = {!! json_encode($products) !!};
+
+        function updateFields(selectedSize) {
+            for (var i = 0; i < products.length; i++) {
+                if (products[i].size === selectedSize) {
+                    document.getElementById('pattern').value = products[i].pattern;
+
+                    break;
+                }
+            }
+        }
+
+        document.getElementById('size').addEventListener('change', function() {
+            var selectedSize = this.value;
+            updateFields(selectedSize);
+        });
+
+        window.onload = function() {
+            var selectedSize = document.getElementById('size').value;
+            if (selectedSize) {
+                updateFields(selectedSize);
+            }
+        }
+    </script>
 @endpush

@@ -10,9 +10,12 @@ class ResultProduction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'size',
+        'pattern',
         'schedule',
         'actual',
         'shift',
         'group',
+        'author',
     ];
 }

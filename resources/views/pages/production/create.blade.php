@@ -33,6 +33,37 @@
                             <h4>Input a new Production Product</h4>
                         </div>
                         <div class="card-body">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="size">Size</label>
+                                        <select class="form-control" name="size" id="size">
+                                            <option value="" disabled selected hidden>Choose a Size</option>
+                                            @foreach($sizes as $size)
+                                                <option value="{{ $size->size }}">{{ $size->size }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('size')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="pattern">Pattern</label>
+                                        <input type="text" class="form-control" placeholder="Choose a Size and Auto Update" id="pattern" name="pattern" readonly>
+                                        @error('pattern')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label>Schedule Production</label>
                                 <input type="text"
@@ -86,6 +117,21 @@
                                     </div>
                                 @enderror
                             </div>
+
+                            <div class="form-group">
+                                <label for="author">Author</label>
+                                <input type="hidden" id="username" value="{{ auth()->user()->name }}">
+                                <input type="text" id="author" name="author" readonly
+                                    class="form-control @error('author')
+                                is-invalid
+                            @enderror"
+                                    name="author">
+                                @error('author')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary">Create Production Product</button>
@@ -99,4 +145,38 @@
 @endsection
 
 @push('scripts')
+    <script>
+        var sizes = {!! json_encode($sizes) !!};
+        var products = {!! json_encode($products) !!};
+
+        // Script to handle size dropdown change event
+        document.getElementById('size').addEventListener('change', function() {
+            var selectedSize = this.value;
+            for (var i = 0; i < products.length; i++) {
+                if (products[i].size === selectedSize) {
+                    document.getElementById('pattern').value = products[i].pattern;
+
+                    break;
+                }
+            }
+        });
+
+        window.onload = function() {
+            var username = document.getElementById('username').value;
+            var authorField = document.getElementById('author');
+
+            if (username) {
+                var currentDateTime = new Date();
+                var formattedDateTime = currentDateTime.getFullYear() + '-' +
+                                        ('0' + (currentDateTime.getMonth() + 1)).slice(-2) + '-' +
+                                        ('0' + currentDateTime.getDate()).slice(-2) + ' ' +
+                                        ('0' + currentDateTime.getHours()).slice(-2) + ':' +
+                                        ('0' + currentDateTime.getMinutes()).slice(-2) + ':' +
+                                        ('0' + currentDateTime.getSeconds()).slice(-2);
+
+                var authorValue = username + '/' + formattedDateTime;
+                authorField.value = authorValue;
+            }
+        };
+    </script>
 @endpush

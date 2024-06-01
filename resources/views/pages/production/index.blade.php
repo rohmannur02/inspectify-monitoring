@@ -69,10 +69,13 @@
                                         @endphp
                                         <tr>
                                             <th>No</th>
+                                            <th>Size Product</th>
+                                            <th>Pattern Product</th>
                                             <th>Schedule Production</th>
                                             <th>Actual Production</th>
                                             <th>Shift</th>
                                             <th>Group</th>
+                                            <th>Author</th>
                                             <th>Created At</th>
                                             <th>Updated At</th>
                                             <th>Action</th>
@@ -88,6 +91,12 @@
                                                     {{ $no++ }}
                                                 </td>
                                                 <td>
+                                                    {{ $production->size }}
+                                                </td>
+                                                <td>
+                                                    {{ $production->pattern }}
+                                                </td>
+                                                <td>
                                                     {{ $production->schedule }}
                                                 </td>
                                                 <td>
@@ -99,6 +108,9 @@
                                                 </td>
                                                 <td>
                                                     {{ $production->group }}
+                                                </td>
+                                                <td>
+                                                    {{ $production->author }}
                                                 </td>
                                                 <td>
                                                     {{ $createdAt }}

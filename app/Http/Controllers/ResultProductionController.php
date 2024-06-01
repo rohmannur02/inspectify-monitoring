@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,7 +24,13 @@ class ResultProductionController extends Controller
 
     public function create()
     {
-        return view('pages.production.create');
+        // Mendapatkan semua ukuran yang unik dari tabel Products
+        $sizes = Product::select('size')->distinct()->get();
+
+        // Memuat semua data products
+        $products = Product::all();
+
+        return view('pages.production.create', compact('sizes', 'products'));
     }
 
      public function store(Request $request)
@@ -38,7 +45,13 @@ class ResultProductionController extends Controller
     public function edit($id)
     {
         $productions = \App\Models\ResultProduction::findOrFail($id);
-        return view('pages.production.edit', compact('productions'));
+
+        $sizes = Product::select('size')->distinct()->get();
+
+        // Memuat semua data products
+        $products = Product::all();
+
+        return view('pages.production.edit', compact('productions', 'sizes', 'products'));
     }
 
     public function update(Request $request, $id)
