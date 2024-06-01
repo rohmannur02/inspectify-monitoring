@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
-            DefectSeeder::class,
+            // DefectSeeder::class,
         ]);
     }
 }
