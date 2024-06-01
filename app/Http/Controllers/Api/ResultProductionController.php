@@ -44,17 +44,23 @@ class ResultProductionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'size' => 'required|string',
+            'pattern' => 'required|string',
             'schedule' => 'required|string',
             'actual' => 'required|string',
             'shift' => 'required|string',
             'group' => 'required|string',
+            'author' => 'required|string',
         ]);
 
         $production = \App\Models\ResultProduction::create([
+            'size' => $request->size,
+            'pattern' => $request->pattern,
             'schedule' => $request->schedule,
             'actual' => $request->actual,
             'shift' => $request->shift,
             'group' => $request->group,
+            'author' => $request->author,
         ]);
 
         if($production) {
@@ -94,10 +100,13 @@ class ResultProductionController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
+                'size' => 'sometimes|required|string',
+                'pattern' => 'sometimes|required|string',
                 'schedule' => 'sometimes|required|string',
                 'actual' => 'sometimes|required|string',
                 'shift' => 'sometimes|required|string',
                 'group' => 'sometimes|required|string',
+                'author' => 'sometimes|required|string',
             ]);
 
             if($validator->fails()) {
@@ -109,10 +118,13 @@ class ResultProductionController extends Controller
             } else {
                 $production = \App\Models\ResultProduction::find($id);
 
+                $production->size = $request->size ?? $production->size;
+                $production->pattern = $request->pattern ?? $production->pattern;
                 $production->schedule = $request->schedule ?? $production->schedule;
                 $production->actual = $request->actual ?? $production->actual;
                 $production->shift = $request->shift ?? $production->shift;
                 $production->group = $request->group ?? $production->group;
+                $production->author = $request->author ?? $production->author;
 
 
 
