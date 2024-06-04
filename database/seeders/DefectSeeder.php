@@ -12,6 +12,8 @@ class DefectSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\Defect::factory(20)->create();
+        echo "Running DefectSeeder\n";
+        \App\Models\Defect::factory(20)->create();
+        echo "Finished DefectSeeder\n";
     }
 }

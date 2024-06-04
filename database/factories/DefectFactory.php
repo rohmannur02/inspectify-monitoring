@@ -17,15 +17,15 @@ class DefectFactory extends Factory
     public function definition(): array
     {
         return [
-            'size' => $this->faker->text,
-            'pattern' => $this->faker->text,
-            'serial' => $this->faker->text,
-            'defect' => $this->faker->text,
-            'area' => $this->faker->text,
-            'mold' => $this->faker->text,
-            'position' => $this->faker->text,
+            'size' => $this->faker->sentence(rand(1,2), false),
+            'pattern' => $this->faker->sentence(rand(1,2), false),
+            'serial' => $this->faker->sentence(rand(1,2), false),
+            'defect' => $this->faker->sentence(rand(1,2), false),
+            'area' => $this->faker->sentence(rand(1,2), false),
+            'mold' => $this->faker->sentence(rand(1,2), false),
+            'position' => $this->faker->sentence(rand(1,2), false),
             'image' => '',
-            'status' => $this->faker->text,
+            'status' => $this->faker->sentence(rand(1,2), false),
         ];
     }
 }

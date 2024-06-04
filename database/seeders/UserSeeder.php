@@ -17,13 +17,13 @@ class UserSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
-            'name' => 'Admin Ridwan',
-            'email' => 'admin@padang.com',
+            'name' => 'Admin Picis',
+            'email' => 'admin@picis.com',
             'email_verified_at' => now(),
             'nik' => '3671011102010000',
             'group' => 'A',
             'status' => 'HOS',
-            'password' => Hash::make('admin12345'),
+            'password' => Hash::make('admin123'),
             'remember_token' => Str::random(10),
         ]);
 
