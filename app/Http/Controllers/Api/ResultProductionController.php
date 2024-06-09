@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ResultProduction;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class ResultProductionController extends Controller
@@ -13,7 +14,7 @@ class ResultProductionController extends Controller
      */
     public function index()
     {
-        $production = \App\Models\ResultProduction::orderBy('id', 'desc')->get();
+        $production = ResultProduction::orderBy('id', 'desc')->get();
 
         if(!$production) {
             return response([
@@ -53,7 +54,7 @@ class ResultProductionController extends Controller
             'author' => 'required|string',
         ]);
 
-        $production = \App\Models\ResultProduction::create([
+        $production = ResultProduction::create([
             'size' => $request->size,
             'pattern' => $request->pattern,
             'schedule' => $request->schedule,
@@ -116,7 +117,7 @@ class ResultProductionController extends Controller
                     'message' => $error,
                 ], 422);
             } else {
-                $production = \App\Models\ResultProduction::find($id);
+                $production = ResultProduction::find($id);
 
                 $production->size = $request->size ?? $production->size;
                 $production->pattern = $request->pattern ?? $production->pattern;
@@ -150,7 +151,7 @@ class ResultProductionController extends Controller
     public function destroy(string $id)
     {
          try {
-            $production = \App\Models\ResultProduction::find($id);
+            $production = ResultProduction::find($id);
 
             if (!$production) {
                 return response()->json([

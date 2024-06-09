@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\Defect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log;
 
 
 class DefectController extends Controller
@@ -18,7 +19,7 @@ class DefectController extends Controller
     {
         $search = $request->input('search');
 
-        $query = \App\Models\Defect::query();
+        $query = Defect::query();
 
         if ($search) {
             $query->where(function($q) use ($search) {
@@ -67,7 +68,7 @@ class DefectController extends Controller
         $filename = time() . '.' . $request->image->extension();
         $request->file('image')->storeAs('public/defect', $filename);
 
-        $defect = \App\Models\Defect::create([
+        $defect = Defect::create([
             'size' => $request->size,
             'pattern' => $request->pattern,
             'serial' => $request->serial,
@@ -130,7 +131,7 @@ class DefectController extends Controller
                     'message' => $error,
                 ], 422);
             } else {
-                $defect = \App\Models\Defect::find($id);
+                $defect = Defect::find($id);
 
                 $defect->size = $request->size ?? $defect->size;
                 $defect->pattern = $request->pattern ?? $defect->pattern;
@@ -178,7 +179,7 @@ class DefectController extends Controller
     public function destroy(string $id)
     {
         try {
-            $defect = \App\Models\Defect::find($id);
+            $defect = Defect::find($id);
 
             $size = $defect->size;
 

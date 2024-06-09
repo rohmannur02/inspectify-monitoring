@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -13,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = \App\Models\Product::orderBy('id', 'desc')->get();
+        $product = Product::orderBy('id', 'desc')->get();
 
         if(!$product) {
             return response([
@@ -50,7 +51,7 @@ class ProductController extends Controller
             'marking_line' => 'required|string',
         ]);
 
-        $product = \App\Models\Product::create([
+        $product = Product::create([
             'size' => $request->size,
             'pattern' => $request->pattern,
             'item_code' => $request->item_code,
@@ -109,7 +110,7 @@ class ProductController extends Controller
                     'message' => $error,
                 ], 422);
             } else {
-                $product = \App\Models\Product::find($id);
+                $product = Product::find($id);
 
                 $product->size = $request->size ?? $product->size;
                 $product->pattern = $request->pattern ?? $product->pattern;
@@ -139,7 +140,7 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         try {
-            $product = \App\Models\Product::find($id);
+            $product = Product::find($id);
 
             $size = $product->size;
 

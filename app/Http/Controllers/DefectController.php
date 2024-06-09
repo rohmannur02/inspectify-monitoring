@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Defect;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 
 class DefectController extends Controller
@@ -46,13 +47,13 @@ class DefectController extends Controller
             $data['image'] = "";
         }
 
-        \App\Models\Defect::create($data);
+        Defect::create($data);
         return redirect()->route('defect.index')->with('success', 'Product Defect successfully created');
     }
 
     public function edit($id)
     {
-        $defect = \App\Models\Defect::findOrFail($id);
+        $defect = Defect::findOrFail($id);
         $sizes = Product::select('size')->distinct()->get();
 
         // Memuat semua data products
@@ -64,7 +65,7 @@ class DefectController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $defect = \App\Models\Defect::findOrFail($id);
+        $defect = Defect::findOrFail($id);
 
         if ($request->hasFile('image')) {
             if ($defect->image) {
@@ -88,7 +89,7 @@ class DefectController extends Controller
 
     public function destroy($id)
     {
-        $defect = \App\Models\Defect::findOrFail($id);
+        $defect = Defect::findOrFail($id);
 
         if ($defect->image) {
             $imagePath = 'public/defect/' . $defect->image;

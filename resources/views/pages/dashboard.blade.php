@@ -39,7 +39,7 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Product Productions</h4>
+                                <h4>Total Productions</h4>
                             </div>
                             <div class="card-body">
                                 {{ $totalProductions . " Productions" }}
@@ -54,7 +54,7 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Product Defects</h4>
+                                <h4>Total Defects</h4>
                             </div>
                             <div class="card-body">
                                 {{ $totalDefects . " Defects" }}

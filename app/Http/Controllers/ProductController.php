@@ -32,7 +32,7 @@ class ProductController extends Controller
     {
         $data = $request->all();
 
-        \App\Models\Product::create($data);
+        Product::create($data);
 
         return redirect()->route('product.index')->with('success', 'product successfully created');
     }
@@ -46,7 +46,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $product = \App\Models\Product::findOrFail($id);
+        $product = Product::findOrFail($id);
 
         $product->update($data);
         return redirect()->route('product.index')->with('success', 'product successfully updated');
@@ -54,7 +54,7 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        $product = \App\Models\Product::findOrFail($id);
+        $product = Product::findOrFail($id);
 
         $product->delete();
         return redirect()->route('product.index')->with('success', 'product successfully deleted');
