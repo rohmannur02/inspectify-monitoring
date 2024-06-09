@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Defect;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DefectSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class DefectSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Defect::factory(5)->create();
+        Defect::factory(5)->create();
     }
 }
