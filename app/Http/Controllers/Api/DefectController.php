@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Defect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -55,6 +56,7 @@ class DefectController extends Controller
         $request->validate([
             'size' => 'required|string',
             'pattern' => 'required|string',
+            'item_code' => 'required|string',
             'serial' => 'required|string',
             'defect' => 'required|string',
             'area' => 'required|string',
@@ -71,6 +73,7 @@ class DefectController extends Controller
         $defect = Defect::create([
             'size' => $request->size,
             'pattern' => $request->pattern,
+            'item_code' => $request->item_code,
             'serial' => $request->serial,
             'defect' => $request->defect,
             'area' => $request->area,
@@ -114,6 +117,7 @@ class DefectController extends Controller
             $validator = Validator::make($request->all(), [
                 'size' => 'sometimes|required|string',
                 'pattern' => 'sometimes|required|string',
+                'item_code' => 'sometimes|required|string',
                 'serial' => 'sometimes|required|string',
                 'defect' => 'sometimes|required|string',
                 'area' => 'sometimes|required|string',
@@ -135,6 +139,7 @@ class DefectController extends Controller
 
                 $defect->size = $request->size ?? $defect->size;
                 $defect->pattern = $request->pattern ?? $defect->pattern;
+                $defect->item_code = $request->item_code ?? $defect->item_code;
                 $defect->serial = $request->serial ?? $defect->serial;
                 $defect->defect = $request->defect ?? $defect->defect;
                 $defect->area = $request->area ?? $defect->area;
@@ -214,4 +219,130 @@ class DefectController extends Controller
             ], 422);
         }
     }
+
+    public function getTrenDefectTotalProductionAndTotalDefect()
+    {
+        $trendDefects = Defect::select('size', 'defect', DB::raw('COUNT(*) as total'))
+            ->groupBy('size', 'defect')
+            ->orderByDesc('total')
+            ->limit(5)
+            ->get();
+
+        $totalRepair = Defect::where('status', 'repair')->count();
+        $totalScrap = Defect::where('status', 'scrap')->count();
+        $totalProductions = DB::table('result_productions')->count();
+        $totalDefects = DB::table('defects')->count();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Total counts for repair and scrap status',
+            'data' => [
+                'total_production' => $totalProductions,
+                'total_defect' => $totalDefects,
+                'repair' => $totalRepair,
+                'scrap' => $totalScrap,
+                'tren_defects' => $trendDefects,
+            ],
+        ], 200);
+    }
+
+    public function reportByDefectApi(Request $request)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $defects = DB::table('defects')
+            // Kondisi dimana ketika ada StartDate dan EndDate yang diinput akan menghasilkan data yang sesuai dengan range tanggal tersebut
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                return $query->whereBetween('created_at', [$startDate, $endDate]);
+            }, function ($query) {
+                // Kondisi default mengembalikan seluruh data jika tidak ada start_date dan end_date
+                return $query;
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if ($startDate && $endDate) {
+            $message = "Laporan data defect products dari tanggal $startDate sampai $endDate";
+        } else {
+            $message = "Laporan seluruh data defect products";
+        }
+
+        if ($defects->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Tidak ada data defect products yang ditemukan untuk filter yang diberikan',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => $message,
+            'data' => $defects,
+        ], 200);
+    }
+
+    public function generateCustomizeReportApi(Request $request)
+    {
+        // Mengambil input dari user
+        $size = $request->input('size');
+        $pattern = $request->input('pattern');
+        $itemCode = $request->input('item_code');
+        $defect = $request->input('defect');
+
+        // Kondisi 1: Ketika hanya ada input defect
+        if (empty($size) && empty($pattern) && empty($itemCode) && !empty($defect)) {
+            // Menghitung total qty berdasarkan defect
+            $message = "Data with Specific Defect: $defect, and All Size";
+            $defects = DB::table('defects')
+                ->select('size', 'pattern', 'item_code', 'defect', DB::raw('count(*) as qty'))
+                ->where('defect', $defect)
+                ->groupBy('size', 'pattern', 'item_code', 'defect')
+                ->get();
+
+        // Kondisi 2: Ketika semua field diisi oleh user
+        } elseif (!empty($size) && !empty($pattern) && !empty($itemCode) && !empty($defect)) {
+            // Menghitung total qty berdasarkan semua input field
+            $message = "Data with Specific Size: $size, Pattern: $pattern, Item Code: $itemCode, and Defect: $defect";
+            $defects = DB::table('defects')
+                ->select('size', 'pattern', 'item_code', 'defect', DB::raw('count(*) as qty'))
+                ->where('size', $size)
+                ->where('pattern', $pattern)
+                ->where('item_code', $itemCode)
+                ->where('defect', $defect)
+                ->groupBy('size', 'pattern', 'item_code', 'defect')
+                ->get();
+
+        // Kondisi 3: Ketika hanya ada input size, pattern, dan item_code tanpa defect
+        } elseif (!empty($size) && !empty($pattern) && empty($defect)) {
+            // Menghitung total qty berdasarkan size, pattern, dan item_code
+            $message = "Data with Specific Size: $size, Pattern: $pattern, Item Code: $itemCode, and All Defect";
+            $defects = DB::table('defects')
+                ->select('size', 'pattern', 'item_code', 'defect', DB::raw('count(*) as qty'))
+                ->where('size', $size)
+                ->where('pattern', $pattern)
+                ->where('item_code', $itemCode)
+                ->groupBy('size', 'pattern', 'item_code', 'defect')
+                ->get();
+
+        // Kondisi default: Tidak ada input yang diberikan, variable $defects menjadi kosong
+        } else {
+            $defects = collect();
+            $message = "Tidak ada filter yang diterapkan";
+        }
+
+        if ($defects->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Tidak ada data defect products yang ditemukan untuk filter yang diberikan',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => $message,
+            'data' => $defects,
+        ], 200);
+    }
+
 }

@@ -27,3 +27,9 @@ Route::apiResource('defect', \App\Http\Controllers\Api\DefectController::class)-
 Route::apiResource('production', \App\Http\Controllers\Api\ResultProductionController::class)->middleware('auth:sanctum');
 
 Route::apiResource('product', \App\Http\Controllers\Api\ProductController::class)->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->get('/home-screen', [\App\Http\Controllers\Api\DefectController::class, 'getTrenDefectTotalProductionAndTotalDefect']);
+
+Route::middleware('auth:sanctum')->get('/report-defects', [\App\Http\Controllers\Api\DefectController::class, 'reportByDefectApi']);
+
+Route::middleware('auth:sanctum')->get('/customize-report-defects', [\App\Http\Controllers\Api\DefectController::class, 'generateCustomizeReportApi']);
