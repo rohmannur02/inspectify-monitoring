@@ -17,7 +17,7 @@
                 <h1>Dashboard - Inspectify</h1>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-primary">
                             <i class="fas fa-users"></i>
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-danger">
                             <i class="fas fa-box"></i>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-warning">
                             <i class="fas fa-exchange-alt"></i>
@@ -56,8 +56,24 @@
                             <div class="card-header">
                                 <h4>Total Defects</h4>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body col">
                                 {{ $totalDefects . " Defects" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-warning">
+                            <i class="fas fa-warning"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total Repair & Scrap Defect</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $totalRepair . " Repair" }},
+                                {{ $totalScrap . " Scrap" }}
                             </div>
                         </div>
                     </div>
@@ -67,10 +83,10 @@
                 <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Latest Product Productions</h4>
+                            <h4>Trend Defect Products</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('production.index') }}"
-                                    class="btn btn-primary">View All</a>
+                                <a href="{{ route('defect.index') }}"
+                                    class="btn btn-primary">View All Defects</a>
                             </div>
                         </div>
                         <div class="card-body p-0">
@@ -78,36 +94,22 @@
                                 <table class="table-striped mb-0 table">
                                     <thead>
                                         <tr>
-                                            <th>Production ID</th>
-                                            <th>Schedule Production</th>
-                                            <th>Actual Production</th>
-                                            <th>Shift</th>
-                                            <th>Group</th>
-                                            <th>Created At</th>
-                                            <th>Updated At</th>
+                                            <th>No</th>
+                                            <th>Size Product</th>
+                                            <th>Defect Product</th>
+                                            <th>Total Defect</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($latestProductions as $production)
-                                            @php
-                                                $date_transaction = \Carbon\Carbon::parse($production->transaction_time)->timezone('Asia/Jakarta')->format('H:i:s l, d M Y');
-
-                                                $createdAt = \Carbon\Carbon::parse($production->created_at)->timezone('Asia/Jakarta')->format('Y-m-d H:i:s');
-                                                $updatedAt = \Carbon\Carbon::parse($production->updated_at)->timezone('Asia/Jakarta')->format('Y-m-d H:i:s')
-                                            @endphp
-
+                                        @php
+                                            $no = 1;
+                                        @endphp
+                                        @foreach($trendDefects as $defect)
                                             <tr>
-                                                <td>{{ $production->id }}</td>
-                                                <td>{{ $production->schedule }}</td>
-                                                <td>{{ $production->actual }}</td>
-                                                <td>{{ $production->shift }}</td>
-                                                <td>{{ $production->group }}</td>
-                                                <td>
-                                                    {{ $createdAt}}
-                                                </td>
-                                                <td>
-                                                    {{ $updatedAt == $createdAt ? "-" : $updatedAt }}
-                                                </td>
+                                                <td>{{ $no++ }}</td>
+                                                <td>{{ $defect->size }}</td>
+                                                <td>{{ $defect->defect }}</td>
+                                                <td>{{ $defect->total }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
