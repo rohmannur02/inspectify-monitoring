@@ -13,6 +13,7 @@ class Defect extends Model
     protected $fillable = [
         'size',
         'pattern',
+        'item_code',
         'serial',
         'defect',
         'area',

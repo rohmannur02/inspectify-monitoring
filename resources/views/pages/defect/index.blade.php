@@ -70,6 +70,7 @@
                                             <th>Author</th>
                                             <th>Size</th>
                                             <th>Pattern</th>
+                                            <th>Item Code</th>
                                             <th>Serial</th>
                                             <th>Defect</th>
                                             <th>Area</th>
@@ -98,6 +99,9 @@
                                                 </td>
                                                 <td>
                                                     {{ $defect->pattern }}
+                                                </td>
+                                                <td>
+                                                    {{ $defect->item_code }}
                                                 </td>
                                                  <td>
                                                     {{ $defect->serial }}
