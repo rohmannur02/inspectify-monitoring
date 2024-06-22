@@ -74,6 +74,23 @@
                 </ul>
             </li>
 
+            <li class="nav-item dropdown ">
+
+                <a href="#"
+                    class="nav-link has-dropdown"><i class="fas fa-calculator"></i><span>Manage Report</span></a>
+                <ul class="dropdown-menu">
+                    <li class='{{ Request::is('report') ? 'active' : '' }}'>
+                        <a class="nav-link"
+                            href="{{ route('report.report_by_defect') }}">Report Data Defect</a>
+                    </li>
+
+                    <li class='{{ Request::is('report') ? 'active' : '' }}'>
+                        <a class="nav-link"
+                            href="{{ route('report.customize_defect') }}">Customize Data Defect</a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
 
         <div class="hide-sidebar-mini mt-4 mb-4 p-3">
