@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 
 class DefectController extends Controller
@@ -251,6 +252,10 @@ class DefectController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
+        // Konversi tanggal input ke objek Carbon untuk memudahkan pemrosesan tanggal
+        $startDateCarbon = $startDate ? Carbon::createFromFormat('Y-m-d', $startDate) : null;
+        $endDateCarbon = $endDate ? Carbon::createFromFormat('Y-m-d', $endDate) : null;
+
         $defects = DB::table('defects')
             // Kondisi dimana ketika ada StartDate dan EndDate yang diinput akan menghasilkan data yang sesuai dengan range tanggal tersebut
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
@@ -263,7 +268,10 @@ class DefectController extends Controller
             ->get();
 
         if ($startDate && $endDate) {
-            $message = "Laporan data defect products dari tanggal $startDate sampai $endDate";
+            $formattedStartDate = $startDateCarbon->format('d-m-Y');
+            $formattedEndDate = $endDateCarbon->format('d-m-Y');
+
+            $message = "Laporan data defect products dari tanggal $formattedStartDate sampai $formattedEndDate";
         } else {
             $message = "Laporan seluruh data defect products";
         }
