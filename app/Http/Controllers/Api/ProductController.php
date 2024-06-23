@@ -14,13 +14,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::orderBy('id', 'desc')->get();
+        $product = Product::orderBy('created_at')->get();
 
         if(!$product) {
             return response([
                 'status' => false,
                 'message' => 'Tidak ada data products',
-                'data' => [],
             ], 404);
         }
 
