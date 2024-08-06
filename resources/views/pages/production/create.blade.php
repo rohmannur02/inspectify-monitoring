@@ -30,7 +30,7 @@
                     <form action="{{ route('production.store') }}" method="POST">
                         @csrf
                         <div class="card-header">
-                            <h4>Input a new Production Product</h4>
+                            <h4>Input New Production </h4>
                         </div>
                         <div class="card-body">
 
@@ -134,7 +134,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <button class="btn btn-primary">Create Production Product</button>
+                            <button class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>

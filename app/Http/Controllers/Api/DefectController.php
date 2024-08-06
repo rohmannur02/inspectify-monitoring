@@ -14,9 +14,7 @@ use Carbon\Carbon;
 
 class DefectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -24,12 +22,12 @@ class DefectController extends Controller
         $query = Defect::query();
 
         if ($search) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('size', 'LIKE', "%{$search}%")
-                ->orWhere('pattern', 'LIKE', "%{$search}%")
-                ->orWhere('defect', 'LIKE', "%{$search}%")
-                ->orWhere('author', 'LIKE', "%{$search}%")
-                ->orWhere('status', 'LIKE', "%{$search}%");
+                    ->orWhere('pattern', 'LIKE', "%{$search}%")
+                    ->orWhere('defect', 'LIKE', "%{$search}%")
+                    ->orWhere('author', 'LIKE', "%{$search}%")
+                    ->orWhere('status', 'LIKE', "%{$search}%");
             });
         }
 
@@ -49,9 +47,6 @@ class DefectController extends Controller
         ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -87,7 +82,7 @@ class DefectController extends Controller
 
         $size = $request->size;
 
-        if($defect) {
+        if ($defect) {
             return response()->json([
                 'success' => true,
                 'message' => 'Product Defect Size ' . $size . ', berhasil dibuat dan disimpan',
@@ -101,17 +96,6 @@ class DefectController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         try {
@@ -129,7 +113,7 @@ class DefectController extends Controller
                 'author' => 'sometimes|required|string',
             ]);
 
-            if($validator->fails()) {
+            if ($validator->fails()) {
                 $error = $validator->errors()->all()[0];
                 return response()->json([
                     'success' => false,
@@ -179,9 +163,6 @@ class DefectController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         try {
@@ -196,7 +177,7 @@ class DefectController extends Controller
                 ], 404);
             }
 
-             if ($defect->image) {
+            if ($defect->image) {
                 // Mengambil path dari URL gambar
                 $imagePath = 'public/defect/' . $defect->image;
 
@@ -216,15 +197,15 @@ class DefectController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message'=> 'Terjadi kesalahan saat menghapus defect: ' . $e->getMessage(),
+                'message' => 'Terjadi kesalahan saat menghapus defect: ' . $e->getMessage(),
             ], 422);
         }
     }
 
     public function getTrenDefectTotalProductionAndTotalDefect()
     {
-        $trendDefects = Defect::select('size', 'defect', DB::raw('COUNT(*) as total'))
-            ->groupBy('size', 'defect')
+        $trendDefects = Defect::select('size','pattern','defect', DB::raw('COUNT(*) as total'))
+            ->groupBy('size', 'pattern', 'defect')
             ->orderByDesc('total')
             ->limit(5)
             ->get();
@@ -308,7 +289,7 @@ class DefectController extends Controller
                 ->groupBy('size', 'pattern', 'item_code', 'defect')
                 ->get();
 
-        // Kondisi 2: Ketika semua field diisi oleh user
+            // Kondisi 2: Ketika semua field diisi oleh user
         } elseif (!empty($size) && !empty($pattern) && !empty($itemCode) && !empty($defect)) {
             // Menghitung total qty berdasarkan semua input field
             $message = "Data with Specific Size: $size, Pattern: $pattern, Item Code: $itemCode, and Defect: $defect";
@@ -321,7 +302,7 @@ class DefectController extends Controller
                 ->groupBy('size', 'pattern', 'item_code', 'defect')
                 ->get();
 
-        // Kondisi 3: Ketika hanya ada input size, pattern, dan item_code tanpa defect
+            // Kondisi 3: Ketika hanya ada input size, pattern, dan item_code tanpa defect
         } elseif (!empty($size) && !empty($pattern) && empty($defect)) {
             // Menghitung total qty berdasarkan size, pattern, dan item_code
             $message = "Data with Specific Size: $size, Pattern: $pattern, Item Code: $itemCode, and All Defect";
@@ -333,7 +314,7 @@ class DefectController extends Controller
                 ->groupBy('size', 'pattern', 'item_code', 'defect')
                 ->get();
 
-        // Kondisi default: Tidak ada input yang diberikan, variable $defects menjadi kosong
+            // Kondisi default: Tidak ada input yang diberikan, variable $defects menjadi kosong
         } else {
             $defects = collect();
             $message = "Tidak ada filter yang diterapkan";
@@ -352,5 +333,4 @@ class DefectController extends Controller
             'data' => $defects,
         ], 200);
     }
-
 }

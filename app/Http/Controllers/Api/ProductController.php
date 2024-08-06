@@ -9,14 +9,12 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $product = Product::orderBy('created_at')->get();
 
-        if(!$product) {
+        if (!$product) {
             return response([
                 'status' => false,
                 'message' => 'Tidak ada data products',
@@ -30,17 +28,6 @@ class ProductController extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -59,7 +46,7 @@ class ProductController extends Controller
 
         $size = $request->size;
 
-        if($product) {
+        if ($product) {
             return response()->json([
                 'success' => true,
                 'message' => 'Data Product Size ' . $size . ', berhasil dibuat dan disimpan',
@@ -73,25 +60,6 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         try {
@@ -102,7 +70,7 @@ class ProductController extends Controller
                 'marking_line' => 'sometimes|required|string',
             ]);
 
-            if($validator->fails()) {
+            if ($validator->fails()) {
                 $error = $validator->errors()->all()[0];
                 return response()->json([
                     'success' => false,
@@ -133,9 +101,7 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         try {
@@ -160,7 +126,7 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message'=> 'Terjadi kesalahan saat menghapus Product: ' . $e->getMessage(),
+                'message' => 'Terjadi kesalahan saat menghapus Product: ' . $e->getMessage(),
             ], 422);
         }
     }

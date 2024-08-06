@@ -16,7 +16,7 @@ class ResultProductionController extends Controller
     {
         $production = ResultProduction::orderBy('id', 'desc')->get();
 
-        if(!$production) {
+        if (!$production) {
             return response([
                 'status' => false,
                 'message' => 'Tidak ada data Produksi Product',
@@ -64,7 +64,7 @@ class ResultProductionController extends Controller
             'author' => $request->author,
         ]);
 
-        if($production) {
+        if ($production) {
             return response()->json([
                 'success' => true,
                 'message' => 'Data Produksi Product berhasil dibuat dan disimpan',
@@ -78,25 +78,6 @@ class ResultProductionController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         try {
@@ -110,7 +91,7 @@ class ResultProductionController extends Controller
                 'author' => 'sometimes|required|string',
             ]);
 
-            if($validator->fails()) {
+            if ($validator->fails()) {
                 $error = $validator->errors()->all()[0];
                 return response()->json([
                     'success' => false,
@@ -145,12 +126,9 @@ class ResultProductionController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-         try {
+        try {
             $production = ResultProduction::find($id);
 
             if (!$production) {
@@ -170,7 +148,7 @@ class ResultProductionController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message'=> 'Terjadi kesalahan saat menghapus Data Produksi Product: ' . $e->getMessage(),
+                'message' => 'Terjadi kesalahan saat menghapus Data Produksi Product: ' . $e->getMessage(),
             ], 422);
         }
     }

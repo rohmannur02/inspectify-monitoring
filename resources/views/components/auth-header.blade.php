@@ -1,6 +1,6 @@
  <div class="login-brand">
-     <img src="{{ asset('img/stisla-fill.svg') }}"
+     <img src="{{ asset('img/inspectify-high-resolution-logo-transparent.png') }}"
          alt="logo"
-         width="100"
-         class="shadow-light rounded-circle">
+         width="200"
+         height="200">
  </div>

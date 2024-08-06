@@ -39,7 +39,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $products = \App\Models\Product::findOrFail($id);
+        $products = Product::findOrFail($id);
         return view('pages.product.edit', compact('products'));
     }
 

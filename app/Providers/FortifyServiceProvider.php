@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -34,7 +38,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });
@@ -46,6 +50,19 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::loginView(function () {
             return view('pages.auth.login');
         });
+        Fortify::authenticateUsing(function (Request $request) {
+            $user = User::where('email', $request->email)->first();
+
+            if ($user && Hash::check($request->password, $user->password)) {
+                return $user;
+            }
+
+            // Jika autentikasi gagal, throw ValidationException
+            throw ValidationException::withMessages([
+                Fortify::username() => [trans('Email Atau Password Salah !')],
+            ]);
+        });
+
 
         Fortify::registerView(function () {
             return view('pages.auth.register');

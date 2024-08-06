@@ -44,7 +44,7 @@
                                         <select class="form-control" name="size" id="size">
                                             <option value="" disabled selected hidden>Choose a Size</option>
                                             @foreach($sizes as $size)
-                                                <option value="{{ $size->size }}" @if($productions->size == $size->size) selected @endif>{{ $size->size }}</option>
+                                                <option value="{{ $size }}" @if($productions->size == $size) selected @endif>{{ $size }}</option>
                                             @endforeach
                                         </select>
                                         @error('size')

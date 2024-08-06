@@ -24,9 +24,7 @@ class ResultProductionController extends Controller
     public function create()
     {
         // Mendapatkan semua ukuran yang unik dari tabel Products
-        $sizes = Product::distinct()->pluck('size');
-
-        // Memuat semua data products
+        $sizes = Product::select('size')->distinct()->get();
         $products = Product::all();
 
         return view('pages.production.create', compact('sizes', 'products'));
@@ -45,21 +43,19 @@ class ResultProductionController extends Controller
 
     public function edit($id)
     {
-        $production = ResultProduction::findOrFail($id);
+        $productions = ResultProduction::findOrFail($id);
         $sizes = Product::distinct()->pluck('size');
         $products = Product::all();
 
-        return view('pages.production.edit', compact('production', 'sizes', 'products'));
+        return view('pages.production.edit', compact('productions', 'sizes', 'products'));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            // Validasi data input sesuai kebutuhan
-        ]);
+        $data = $request->all();
 
         $production = ResultProduction::findOrFail($id);
-        $production->update($request->all());
+        $production->update($data);
 
         return redirect()->route('production.index')->with('success', 'Production successfully updated');
     }

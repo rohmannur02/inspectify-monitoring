@@ -15,10 +15,12 @@
         </div>
 
         <div class="card-body">
+             <!-- Tambahkan gambar logo -->
+          
             <form method="POST" action="{{ route('register') }}" class="needs-validation">
                 @csrf
                 <div class="form-group">
-                    <label for="frist_name">Full Name</label>
+                    <label for="frist_name">Nama Lengkap</label>
                     <input id="frist_name"
                         type="text"
                         class="form-control @error('name')
@@ -33,7 +35,6 @@
                         </div>
                     @enderror
                 </div>
-
 
 
                 <div class="form-group">
@@ -75,7 +76,7 @@
                 </div>
                 <div class="form-group">
                     <label for="password2"
-                        class="d-block">Password Confirmation</label>
+                        class="d-block">Konfirmasi Password</label>
                     <input id="password2"
                         type="password"
                         class="form-control @error('password_confirmation')
@@ -97,7 +98,7 @@
                             class="custom-control-input"
                             id="agree">
                         <label class="custom-control-label"
-                            for="agree">I agree with the terms and conditions</label>
+                            for="agree">Saya Setuju</label>
                     </div>
                 </div>
 

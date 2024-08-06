@@ -15,10 +15,14 @@ class DefectController extends Controller
 {
     public function index(Request $request)
     {
-        // Mendapatkan semua data products
-        $defects = DB::table('defects')
-            ->when($request->input('defect'), function ($query, $defect) {
-                return $query->where('defect', 'like', '%' . $defect . '%');
+        $defects = Defect::when($request->defect, function ($query, $defect) {
+            return $query->where('defect', 'like', '%' . $defect . '%');
+        })
+            ->when($request->size, function ($query, $size) {
+                return $query->where('size', 'like', '%' . $size . '%');
+            })
+            ->when($request->pattern, function ($query, $pattern) {
+                return $query->where('pattern', 'like', '%' . $pattern . '%');
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
@@ -28,7 +32,7 @@ class DefectController extends Controller
 
     public function create()
     {
-         // Mendapatkan semua ukuran yang unik dari tabel Products
+        // Mendapatkan semua ukuran yang unik dari tabel Products
         $sizes = Product::select('size')->distinct()->get();
 
         // Memuat semua data products
@@ -37,22 +41,37 @@ class DefectController extends Controller
         return view('pages.defect.create', compact('sizes', 'products'));
     }
 
-     public function store(Request $request)
-    {
-        $data = $request->all();
+    public function store(Request $request)
+{
+    // Validasi data input
+    $request->validate([
+        'size' => 'required',
+        'pattern' => 'required',
+        'item_code' => 'required',
+        'serial' => 'required',
+        'defect' => 'required',
+        'area' => 'required',
+        'mold' => 'required',
+        'position' => 'required',
+        'status' => 'required',
+        'author' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        if ($request->hasFile('image')) {
-            $filename = time() . '.' . $request->image->extension();
-            $request->file('image')->storeAs('public/defect', $filename);
-
-            $data['image'] = $filename;
-        } else {
-            $data['image'] = "";
-        }
-
-        Defect::create($data);
-        return redirect()->route('defect.index')->with('success', 'Product Defect successfully created');
+    // Jika ada file image yang diupload
+    if ($request->hasFile('image')) {
+        $filename = time() . '.' . $request->image->extension();
+        $request->file('image')->storeAs('public/defect', $filename);
+        $data['image'] = $filename;
+    } else {
+        $data['image'] = "";
     }
+
+    // Simpan data ke database
+    Defect::create($request->all());
+    return redirect()->route('defect.index')->with('success', 'Product Defect successfully created');
+}
+
 
     public function edit($id)
     {
@@ -162,7 +181,7 @@ class DefectController extends Controller
                 ->groupBy('size', 'pattern', 'item_code', 'defect')
                 ->get();
 
-        // Kondisi 2: Ketika semua field diisi oleh user
+            // Kondisi 2: Ketika semua field diisi oleh user
         } elseif (!empty($size) && !empty($pattern) && !empty($itemCode) && !empty($defect)) {
             // Menghitung total qty berdasarkan semua input field
             $headerTable = "Data with Specific Size: $size, Pattern: $pattern, Item Code: $itemCode, and Defect: $defect";
@@ -175,7 +194,7 @@ class DefectController extends Controller
                 ->groupBy('size', 'pattern', 'item_code', 'defect')
                 ->get();
 
-        // Kondisi 3: Ketika hanya ada input size, pattern, dan item_code tanpa defect
+            // Kondisi 3: Ketika hanya ada input size, pattern, dan item_code tanpa defect
         } elseif (!empty($size) && !empty($pattern) && empty($defect)) {
             // Menghitung total qty berdasarkan size, pattern, dan item_code
             $headerTable = "Data with Specific Size: $size, Pattern: $pattern, Item Code: $itemCode, and All Defect";
@@ -187,7 +206,7 @@ class DefectController extends Controller
                 ->groupBy('size', 'pattern', 'item_code', 'defect')
                 ->get();
 
-        // Kondisi default: Tidak ada input yang diberikan variable $defects menjadi kosong
+            // Kondisi default: Tidak ada input yang diberikan variable $defects menjadi kosong
         } else {
             $defects = collect();
         }
@@ -211,7 +230,7 @@ class DefectController extends Controller
                 ->groupBy('size', 'pattern', 'item_code', 'defect')
                 ->get();
 
-        // Kondisi 2: Ketika semua field diisi oleh user
+            // Kondisi 2: Ketika semua field diisi oleh user
         } elseif (!empty($size) && !empty($pattern) && !empty($pattern) && !empty($defect)) {
             $defects = DB::table('defects')
                 ->select('size', 'pattern', 'item_code', 'defect', DB::raw('count(*) as qty'))
@@ -222,7 +241,7 @@ class DefectController extends Controller
                 ->groupBy('size', 'pattern', 'item_code', 'defect')
                 ->get();
 
-        // Kondisi 3: Ketika hanya ada input size, pattern, dan item_code tanpa defect
+            // Kondisi 3: Ketika hanya ada input size, pattern, dan item_code tanpa defect
         } elseif (!empty($size) && !empty($pattern) && !empty($pattern) && empty($defect)) {
             $defects = DB::table('defects')
                 ->select('size', 'pattern', 'item_code', 'defect',  DB::raw('count(*) as qty'))
@@ -232,7 +251,7 @@ class DefectController extends Controller
                 ->groupBy('size', 'pattern', 'item_code', 'defect')
                 ->get();
 
-        // Kondisi default: Tidak ada input yang diberikan variable $defects menjadi kosong
+            // Kondisi default: Tidak ada input yang diberikan variable $defects menjadi kosong
         } else {
             $defects = collect();
         }

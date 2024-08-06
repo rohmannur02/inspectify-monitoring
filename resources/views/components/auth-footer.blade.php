@@ -1,3 +1,3 @@
   <div class="simple-footer">
-      Copyright &copy; Inspectify 2024
+      Copyright &copy; Inspectify Rohman Nurhidayat 2024
   </div>

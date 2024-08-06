@@ -16,8 +16,8 @@ class DashboardController extends Controller
         $totalRepair = DB::table('defects')->where('status', 'repair')->count();
         $totalScrap = DB::table('defects')->where('status', 'scrap')->count();
 
-        $trendDefects = Defect::select('size', 'defect', DB::raw('COUNT(*) as total'))
-            ->groupBy('size', 'defect')
+        $trendDefects = Defect::select('size', 'pattern','defect', DB::raw('COUNT(*) as total'))
+            ->groupBy('size', 'pattern', 'defect')
             ->orderByDesc('total')
             ->limit(5)
             ->get();

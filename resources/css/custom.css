@@ -1,0 +1,12 @@
+.searchable-content {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .input-group {
+        flex-direction: column;
+    }
+    .input-group .form-control {
+        margin-bottom: 10px;
+    }
+}

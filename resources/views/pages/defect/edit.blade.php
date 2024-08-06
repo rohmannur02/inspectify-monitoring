@@ -28,7 +28,7 @@
                 <h2 class="section-title">Product Defect</h2>
 
                 <div class="card">
-                    <form action="{{ route('defect.update', $defect) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('defect.update', $defect) }}" method="POST" enctype="multipart/fortm-daa">
                         @csrf
                         @method('PUT')
                         <div class="card-header">
